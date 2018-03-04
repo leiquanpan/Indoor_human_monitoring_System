@@ -1,0 +1,192 @@
+    1  ls
+    2  python3
+    3  java
+    4  sudo apt install default-jre
+    5  sudo apt-get install default-jre
+    6* 
+    7  sudo apt-get install default-jre
+    8  git clone https://github.com/davisking/dlib.git
+    9  cd dlib/
+   10  ls
+   11  mkdir build
+   12  cd build
+   13  sudo apt-get install cmake
+   14  cmake .. -DDLIB_USE_CUDA=0 -DUSE_AVX_INSTRUCTIONS=1
+   15  cd ..
+   16  ls
+   17  cd ..
+   18  ls
+   19  history
+   20  cd dlib/build/
+   21  ls
+   22  sudo apt-get update && sudo apt-get install build-essential
+   23  cmake .. -DDLIB_USE_CUDA=0 -DUSE_AVX_INSTRUCTIONS=1
+   24  sudo apt-get install libx11-dev
+   25  sudo apt-get install libopenblas-dev liblapack-dev
+   26  ls
+   27  cmake --build .
+   28  cd ..
+   29  python3 setup.py install --yes USE_AVX_INSTRUCTIONS --no DLIB_USE_CUDA
+   30  pip3 install setuptools
+   31  sudo apt install python3-pip
+   32  pip3 install setuptools
+   33  python3 setup.py install --yes USE_AVX_INSTRUCTIONS --no DLIB_USE_CUDA
+   34  sudo python3 setup.py install --yes USE_AVX_INSTRUCTIONS --no DLIB_USE_CUDA
+   35  pip3 install face_recognition
+   36  ls
+   37  cd ..
+   38  ls
+   39  pwd
+   40  ls
+   41  cd IoT_CERT/
+   42  ;s
+   43  ls
+   44  cd ..
+   45  ls
+   46  mkdir subscriber
+   47  ls
+   48  mkdir face_rocoginition
+   49  ls
+   50  cd face_rocoginition/
+   51  l
+   52  ls
+   53  cd ..
+   54  ls
+   55  cd IoT_CERT/
+   56  ls
+   57  mv subscriber.py ../subscriber/
+   58  mv faceCount.py ../face_rocoginition/
+   59  ls
+   60  vi command.txt 
+   61  ls
+   62  mv command.txt ../subscriber/
+   63  ls
+   64  cd ..
+   65  ls
+   66  cd subscriber/
+   67  ls
+   68  cd ..
+   69  ls
+   70  cd subscriber/
+   71  ls
+   72  vi command.txt 
+   73  python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r root-CA -k private.pem.key -c certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
+   74  pip3 install paho-mqtt python-etcd
+   75* python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -k ../IoT_CERT/private.pem.key -c ../IoT_CERT/certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
+   76  vi command.txt 
+   77  python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -k ../IoT_CERT/private.pem.key -c ../IoT_CERT/certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
+   78  vi subscriber.py 
+   79  python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -k ../IoT_CERT/private.pem.key -c ../IoT_CERT/certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
+   80  sudo apt-get install python-opencv
+   81  ls
+   82  cd ..
+   83  ls
+   84  cd face_rocoginition/
+   85  ls
+   86  vi faceCount.py 
+   87  nano faceCount.py 
+   88  ls
+   89  cd ..
+   90  ls
+   91  cd subscriber/
+   92  ls
+   93  vi subscriber.py 
+   94  cd ..
+   95  ls
+   96  mkdir pictures
+   97  cd dlib/
+   98  cd ..
+   99  cd face_rocoginition/
+  100  ls
+  101  vi faceCount.py 
+  102  cd ..
+  103  ls
+  104  mkdir processed_pictures
+  105  ls
+  106  cd p
+  107  cd pictures/
+  108  ls
+  109  pwd
+  110  ls
+  111  cd ..
+  112  ls
+  113  cd subscriber/
+  114  ls
+  115  vi subscriber.py 
+  116  cd ..
+  117  ls
+  118  cd subscriber/
+  119  ls
+  120  cd ..
+  121  ls
+  122  cd face_rocoginition/
+  123  ls
+  124  vi faceCount.py 
+  125  ls
+  126  python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
+  127  sudo apt-get install python3-opencv
+  128  pip3 install numpy
+  129  ls
+  130  vi command.txt
+  131  python3
+  132  Use the pip application. On windows you find it in Python3/Scripts/pip.exe and On Ubuntu you can install with apt-get install python3-pip. and so, use the command line:
+  133  pip3 install --upgrade pip
+  134  pip3 install opencv-python
+  135  sudo pip3 install opencv-python
+  136  ls
+  137  python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
+  138  vi faceCount.py 
+  139  python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
+  140  vi faceCount.py 
+  141  python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
+  142  ls
+  143  cd ..
+  144  ls
+  145  cd p
+  146  cd pe
+  147  cd processed_pictures/
+  148  ls
+  149  cd ..
+  150  ls
+  151  cd face_rocoginition/
+  152  ls
+  153  vi faceCount.py 
+  154  python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
+  155  vi faceCount.py 
+  156  python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
+  157  cd ..
+  158  ls
+  159  cd processed_pictures/
+  160  ls
+  161  eog processed_picture_2018-03-04\ 03\:36\:07.003743.jpg 
+  162  sudo apt install eog
+  163  eog processed_picture_2018-03-04\ 03\:36\:07.003743.jpg 
+  164  sudo eog processed_picture_2018-03-04\ 03\:36\:07.003743.jpg 
+  165  ls
+  166  cd ..
+  167  ls
+  168  pwd
+  169  cd processed_pictures/
+  170  ls
+  171  pwd
+  172  ls
+  173  cd ..
+  174  ls
+  175  cd subscriber/
+  176  ls
+  177  vi subscriber.py 
+  178  cd ..
+  179  ls
+  180  cd face_rocoginition/
+  181  ls
+  182  vi command.txt 
+  183  cd ..
+  184  ls
+  185  cd subscriber/
+  186  ls
+  187  vi subscriber.py 
+  188  ls
+  189  cd ..
+  190  ls
+  191  histroy > installation_track.txt
+  192  history > installation_track.txt

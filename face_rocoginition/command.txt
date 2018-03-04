@@ -1,0 +1,1 @@
+python3 faceCount.py -f ../pictures/test.jpg -e ../processed_pictures
