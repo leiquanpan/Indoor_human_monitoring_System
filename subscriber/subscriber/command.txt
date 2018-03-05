@@ -1,0 +1,3 @@
+//running subscriber.py only and store into local file system
+
+python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -k ../IoT_CERT/private.pem.key -c ../IoT_CERT/certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
