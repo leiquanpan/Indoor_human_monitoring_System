@@ -1,0 +1,6 @@
+//running publisher.py only
+python publisher.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -c ../IoT_CERT/certificate.pem.crt -k ../IoT_CERT/private.pem.key -m publish -t aws/things/Image_broker_01/shadow/update -M "YES,YOU GOT IT"
+
+
+//running periodcally capture and publish procedure
+python Periodically_Camera_Capture.py -p 10 -t 2
