@@ -25,8 +25,16 @@ def process_first_part(random_number, image_data):
     hash_map[random_number] = image_data
 
 
+def process_following_part(random_number, image_data):
+    if(!hash_map.has_key(random_number)):
+        print("There is no first map matching, drop it")
+        return
+    
+    im_bytes = hash_map[random_number]
+    hash_map[random_number] = im_bytes + image_data
+
 #processing second part of image, if match generate
-def process_second_part(random_number, image_data):
+def process_end_part(random_number, image_data):
     if(!hash_map.has_key(random_number)):
         print("There is no first map matching, drop it")
         return
@@ -46,6 +54,17 @@ def process_second_part(random_number, image_data):
     subprocess.call(command,shell = True)
     print("end processing")
 
+def process_end_part(image_data):
+    #begin to grnerate image
+    timestamp = str(time.time())
+    filePath = os.getcwd() + "/../pictures/received_picture_" + timestamp + ".jpeg"
+    image = np.asarray(image_data,dtype="uint8")
+    decimg = cv2.imdecode(image, 1)
+    print("Received a photo, and stored time into %s" % filePath)
+    print("start processing")
+    command = "python3 ../face_rocoginition/faceCount.py -f " + filePath + " -e ../processed_pictures"
+    subprocess.call(command,shell = True)
+    print("end processing")
 
 #connect callback
 def on_connect(client, userdata, flags, rc):
@@ -59,13 +78,18 @@ def on_message(client, userdata, msg):
     length = len(input_msg)
     
     identity = int.from_bytes(input_msg[0],byteorder='big')
+    if (identity == 3):
+        process_whole_part(input_msg[1:])
+    
     random_id = int.from_bytes(input_msg[length-2:length],byteorder='big')
     half_image_data = input_msg[1:length-2]
     
     if (identity == 0):
         process_first_part(random_id, half_image_data)
-    else if (identity == 1):
-        process_second_part(random_id, half_image_data)
+    elif (identity == 1):
+        process_following_part(random_id, half_image_data)
+    elif (identity == 2):
+        process_end_part(random_id, half_image_data)
 
     print("End one receive callback")
 

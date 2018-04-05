@@ -116,26 +116,43 @@ while loopCount < 1:
 	img = cv2.imread(path,1)
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),100]
         result, encimg = cv2.imencode('.jpg', img, encode_param)
-        #add partition
+        #have bytearray
         original_graph = bytearray(encimg)
         length = len(original_graph)
-        
-        first_part = original_graph[:length/2]
-        second_part = original_graph[length/2:length]
-        
-        #add identification
-        first_part.insert(0,(0).to_bytes(1, byteorder='big'))
-        second_part.insert(0,(1).to_bytes(1, byteorder='big'))
+        start = 0
         
         #add random number
         random_number = random.randint(1,1024)
-        first_part.append(random_number.to_bytes(2, byteorder='big'))
-        second_part.append(random_number.to_bytes(2, byteorder='big'))
         
-        myAWSIoTMQTTClient.publish(topic, first_part, 1)
-        print("Published first half of message " + loopCount)
-        myAWSIoTMQTTClient.publish(topic, second_part, 1)
-        print("Published second half of message " + loopCount)
+        if length >= 1000*1024:
+            first_part = original_graph[start:start + 1000*1024]
+            #add identification
+            first_part.insert(0,(0).to_bytes(1, byteorder='big'))
+            first_part.append(random_number.to_bytes(2, byteorder='big'))
+            myAWSIoTMQTTClient.publish(topic, first_part, 1)
+            print("Published first half of message " + loopCount)
+        else:
+            original_graph.insert(0,(3).to_bytes(1, byteorder='big'))
+            myAWSIoTMQTTClient.publish(topic, original_graph, 1)
+            print("Published the whole message " + loopCount)
+        
+        length = length - 1000*1024
+        start = 1000*1024
+        
+        while length >= 1000*1024:
+            following_part = original_graph[start:start + 1000*1024]
+            following_part.insert(0,(1).to_bytes(1, byteorder='big'))
+            following_part.append(random_number.to_bytes(2, byteorder='big'))
+            myAWSIoTMQTTClient.publish(topic, following_part, 1)
+            print("Published following half of message " + loopCount)
+            length = length - 1000*1024
+            start = start + 1000*1024
+                
+        end_part = original_graph[start:]
+        end_part.insert(0,(2).to_bytes(1, byteorder='big'))
+        end_part.append(random_number.to_bytes(2, byteorder='big'))
+        myAWSIoTMQTTClient.publish(topic, end_part, 1)
+        print("Published end half of message " + loopCount)
         
         loopCount += 1
     time.sleep(float(interval))
