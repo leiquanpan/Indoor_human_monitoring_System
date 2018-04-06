@@ -33,7 +33,7 @@ def process_first_part(random_number, image_data):
 
 
 def process_following_part(random_number, image_data):
-    if(!hash_map.has_key(random_number)):
+    if(hash_map.has_key(random_number) == false):
         print("There is no first map matching, drop it")
         return
     
@@ -42,7 +42,7 @@ def process_following_part(random_number, image_data):
 
 #processing second part of image, if match generate
 def process_end_part(random_number, image_data):
-    if(!hash_map.has_key(random_number)):
+    if(hash_map.has_key(random_number) == false):
         print("There is no first map matching, drop it")
         return
     
