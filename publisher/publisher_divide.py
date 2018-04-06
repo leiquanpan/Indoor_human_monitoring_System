@@ -25,6 +25,15 @@ import random
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
+#int to bytes implementation
+def int_to_bytes(value, length):
+    result = []
+    for i in range(0, length):
+        result.append(value >> (i * 8) & 0xff)
+    
+    result.reverse()
+    return result
+
 # Custom MQTT message callback
 def customCallback(client, userdata, message):
     print("Received a new message: ")
@@ -127,12 +136,12 @@ while loopCount < 1:
         if length >= 1000*1024:
             first_part = original_graph[start:start + 1000*1024]
             #add identification
-            first_part.insert(0,(0).to_bytes(1, byteorder='big'))
-            first_part.append(random_number.to_bytes(2, byteorder='big'))
+            first_part = int_to_bytes(0,1) + first_part
+            first_part = first_part + int_to_bytes(random_number,2)
             myAWSIoTMQTTClient.publish(topic, first_part, 1)
             print("Published first half of message " + loopCount)
         else:
-            original_graph.insert(0,(3).to_bytes(1, byteorder='big'))
+            original_graph = int_to_bytes(3,1) + original_graph
             myAWSIoTMQTTClient.publish(topic, original_graph, 1)
             print("Published the whole message " + loopCount)
         
@@ -141,16 +150,16 @@ while loopCount < 1:
         
         while length >= 1000*1024:
             following_part = original_graph[start:start + 1000*1024]
-            following_part.insert(0,(1).to_bytes(1, byteorder='big'))
-            following_part.append(random_number.to_bytes(2, byteorder='big'))
+            following_part = int_to_bytes(1,1) + following_part
+            following_part = following_part + int_to_bytes(random_number,2)
             myAWSIoTMQTTClient.publish(topic, following_part, 1)
             print("Published following half of message " + loopCount)
             length = length - 1000*1024
             start = start + 1000*1024
                 
         end_part = original_graph[start:]
-        end_part.insert(0,(2).to_bytes(1, byteorder='big'))
-        end_part.append(random_number.to_bytes(2, byteorder='big'))
+        end_part = int_to_bytes(2,1) + end_part
+        end_part = end_part + int_to_bytes(random_number,2)
         myAWSIoTMQTTClient.publish(topic, end_part, 1)
         print("Published end half of message " + loopCount)
         

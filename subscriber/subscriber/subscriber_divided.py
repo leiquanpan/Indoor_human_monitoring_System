@@ -19,6 +19,13 @@ import subprocess
 print("Initialize dictions")
 hash_map = {}
 
+#bytes to int implementation
+def bytes_to_int(bytes):
+    result = 0
+    for b in bytes:
+        result = result * 256 + int(b)
+    return result
+
 
 #processing first part of image, insert into hash_map
 def process_first_part(random_number, image_data):
@@ -77,11 +84,11 @@ def on_message(client, userdata, msg):
     input_msg = bytearray(msg.payload)
     length = len(input_msg)
     
-    identity = int.from_bytes(input_msg[0],byteorder='big')
+    identity = bytes_to_int(input_msg[:1])
     if (identity == 3):
         process_whole_part(input_msg[1:])
     
-    random_id = int.from_bytes(input_msg[length-2:length],byteorder='big')
+    random_id = bytes_to_int(input_msg[length-2:length])
     half_image_data = input_msg[1:length-2]
     
     if (identity == 0):
