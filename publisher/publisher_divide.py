@@ -25,15 +25,6 @@ import random
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
-#int to bytes implementation
-def int_to_bytes(value, length):
-    result = []
-    for i in range(0, length):
-        result.append(value >> (i * 8) & 0xff)
-    
-    result.reverse()
-    return result
-
 # Custom MQTT message callback
 def customCallback(client, userdata, message):
     print("Received a new message: ")
@@ -70,6 +61,13 @@ useWebsocket = args.useWebsocket
 clientId = args.clientId
 topic = args.topic
 interval = args.interval
+path = args.message
+
+#parameters for identity
+start = 0
+middle = 1
+end = 2
+whole = 3
 
 if args.mode not in AllowedActions:
     parser.error("Unknown --mode option %s. Must be one of %s" % (args.mode, str(AllowedActions)))
@@ -121,8 +119,8 @@ loopCount = 0
 while loopCount < 1:
     if args.mode == 'both' or args.mode == 'publish':
         message = {}
-	path = args.message
-	img = cv2.imread(path,1)
+        path = args.message
+        img = cv2.imread(path,1)
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),100]
         result, encimg = cv2.imencode('.jpg', img, encode_param)
         #have bytearray
@@ -133,35 +131,36 @@ while loopCount < 1:
         #add random number
         random_number = random.randint(1,1024)
         
-        if length >= 1000*1024:
-            first_part = original_graph[start:start + 1000*1024]
+        if length >= 100*1024:
+            first_part = original_graph[start:start + 100*1024]
             #add identification
-            first_part = int_to_bytes(0,1) + first_part
-            first_part = first_part + int_to_bytes(random_number,2)
-            myAWSIoTMQTTClient.publish(topic, first_part, 1)
-            print("Published first half of message " + loopCount)
+            first_part = start.to_bytes(1, byteorder='big') + first_part
+            first_part = first_part + random_number.to_bytes(2, byteorder='big')
+            myAWSIoTMQTTClient.publish(topic, bytearray(first_part), 1)
+            print("Published first half of message " + str(loopCount))
         else:
-            original_graph = int_to_bytes(3,1) + original_graph
-            myAWSIoTMQTTClient.publish(topic, original_graph, 1)
-            print("Published the whole message " + loopCount)
+            original_graph = whole.to_bytes(1, byteorder='big') + original_graph
+            myAWSIoTMQTTClient.publish(topic, bytearray(original_graph), 1)
+            print("Published the whole message " + str(loopCount))
+            continue
         
-        length = length - 1000*1024
-        start = 1000*1024
+        length = length - 100*1024
+        start = 100*1024
         
-        while length >= 1000*1024:
-            following_part = original_graph[start:start + 1000*1024]
-            following_part = int_to_bytes(1,1) + following_part
-            following_part = following_part + int_to_bytes(random_number,2)
-            myAWSIoTMQTTClient.publish(topic, following_part, 1)
-            print("Published following half of message " + loopCount)
-            length = length - 1000*1024
-            start = start + 1000*1024
+        while length >= 100*1024:
+            following_part = original_graph[start:start + 100*1024]
+            following_part = middle.to_bytes(1, byteorder='big') + following_part
+            following_part = following_part + random_number.to_bytes(2, byteorder='big')
+            myAWSIoTMQTTClient.publish(topic, bytearray(following_part), 1)
+            print("Published following half of message " + str(loopCount))
+            length = length - 100*1024
+            start = start + 100*1024
                 
         end_part = original_graph[start:]
-        end_part = int_to_bytes(2,1) + end_part
-        end_part = end_part + int_to_bytes(random_number,2)
-        myAWSIoTMQTTClient.publish(topic, end_part, 1)
-        print("Published end half of message " + loopCount)
+        end_part = end.to_bytes(1, byteorder='big') + end_part
+        end_part = end_part + random_number.to_bytes(2, byteorder='big')
+        myAWSIoTMQTTClient.publish(topic, bytearray(end_part), 1)
+        print("Published end half of message " + str(loopCount))
         
         loopCount += 1
     time.sleep(float(interval))

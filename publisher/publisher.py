@@ -113,7 +113,7 @@ while loopCount < 1:
         message = {}
 	path = args.message
 	img = cv2.imread(path,1)
-        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),80]
+        encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),50]
         result, encimg = cv2.imencode('.jpg', img, encode_param)
         myAWSIoTMQTTClient.publish(topic, bytearray(encimg), 1)
         if args.mode == 'publish':
