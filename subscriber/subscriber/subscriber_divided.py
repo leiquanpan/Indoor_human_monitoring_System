@@ -30,19 +30,20 @@ def bytes_to_int(bytes):
 #processing first part of image, insert into hash_map
 def process_first_part(random_number, image_data):
     hash_map[random_number] = image_data
-
+    print("add into hash map")
 
 def process_following_part(random_number, image_data):
-    if(hash_map.has_key(random_number) == false):
+    if(random_number not in hash_map.keys()):
         print("There is no first map matching, drop it")
         return
     
     im_bytes = hash_map[random_number]
     hash_map[random_number] = im_bytes + image_data
+    print("add more")
 
 #processing second part of image, if match generate
 def process_end_part(random_number, image_data):
-    if(hash_map.has_key(random_number) == false):
+    if(random_number not in hash_map.keys()):
         print("There is no first map matching, drop it")
         return
     
@@ -55,18 +56,20 @@ def process_end_part(random_number, image_data):
     filePath = os.getcwd() + "/../pictures/received_picture_" + timestamp + ".jpeg"
     image = np.asarray(whole_image,dtype="uint8")
     decimg = cv2.imdecode(image, 1)
+    cv2.imwrite(filePath,decimg)
     print("Received a photo, and stored time into %s" % filePath)
     print("start processing")
     command = "python3 ../face_rocoginition/faceCount.py -f " + filePath + " -e ../processed_pictures"
     subprocess.call(command,shell = True)
     print("end processing")
 
-def process_end_part(image_data):
+def process_whole_part(image_data):
     #begin to grnerate image
     timestamp = str(time.time())
     filePath = os.getcwd() + "/../pictures/received_picture_" + timestamp + ".jpeg"
     image = np.asarray(image_data,dtype="uint8")
     decimg = cv2.imdecode(image, 1)
+    cv2.imwrite(filePath,decimg)
     print("Received a photo, and stored time into %s" % filePath)
     print("start processing")
     command = "python3 ../face_rocoginition/faceCount.py -f " + filePath + " -e ../processed_pictures"
@@ -85,8 +88,10 @@ def on_message(client, userdata, msg):
     length = len(input_msg)
     
     identity = bytes_to_int(input_msg[:1])
+    print("Identity is " + str(identity))
     if (identity == 3):
         process_whole_part(input_msg[1:])
+        return
     
     random_id = bytes_to_int(input_msg[length-2:length])
     half_image_data = input_msg[1:length-2]
@@ -98,7 +103,6 @@ def on_message(client, userdata, msg):
     elif (identity == 2):
         process_end_part(random_id, half_image_data)
 
-    print("End one receive callback")
 
 
 # Read in command-line parameters
