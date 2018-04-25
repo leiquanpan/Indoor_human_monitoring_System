@@ -139,7 +139,7 @@ ref.update({
      'C2':False,
      'D0':False,
      'D1':False,
-     'D2':False,
+     'D2':False
 })
 #cv2.putText(frame, text, (), font, 1, (255, 255, 255), 1)
 #store the photo in the endPath
