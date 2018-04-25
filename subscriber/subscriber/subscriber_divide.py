@@ -28,28 +28,41 @@ def bytes_to_int(bytes):
 
 
 #processing first part of image, insert into hash_map
-def process_first_part(random_number, image_data):
-    hash_map[random_number] = image_data
-    print("add into hash map")
+def process_first_part(random_number, image_data, sequence):
+    if sequence == 0:
+        hash_map[random_number] = image_data
+        print("add into hash map")
 
-def process_following_part(random_number, image_data):
+def process_following_part(random_number, image_data, sequence):
     if(random_number not in hash_map.keys()):
         print("There is no first map matching, drop it")
         return
     
     im_bytes = hash_map[random_number]
-    hash_map[random_number] = im_bytes + image_data
+    pre_sequence = bytes_to_int(im_bytes[:1])
+    if(sequence - pre_sequence != 1):
+        print("Lost packet, drop whole")
+        hash_map.pop(random_number)
+        return
+
+    hash_map[random_number] = image_data[:1] + im_bytes[1:] + image_data[1:]
     print("add more")
 
 #processing second part of image, if match generate
-def process_end_part(random_number, image_data):
+def process_end_part(random_number, image_data, sequence):
     if(random_number not in hash_map.keys()):
         print("There is no first map matching, drop it")
         return
     
     first_half = hash_map[random_number]
+    pre_sequence = bytes_to_int(first_half[:1])
+    if(sequence - pre_sequence != 1):
+        print("Lost packet, drop whole")
+        hash_map.pop(random_number)
+        return
+
     hash_map.pop(random_number)
-    whole_image = first_half + image_data
+    whole_image = first_half[1:] + image_data[1:]
 
     #begin to grnerate image
     timestamp = str(time.time())
@@ -92,16 +105,18 @@ def on_message(client, userdata, msg):
     if (identity == 3):
         process_whole_part(input_msg[1:])
         return
-    
+
+    sequence = bytes_to_int(input_msg[1:2])
+    print("Sequence is " + str(sequence))    
     random_id = bytes_to_int(input_msg[length-2:length])
     half_image_data = input_msg[1:length-2]
     
     if (identity == 0):
-        process_first_part(random_id, half_image_data)
+        process_first_part(random_id, half_image_data, sequence)
     elif (identity == 1):
-        process_following_part(random_id, half_image_data)
+        process_following_part(random_id, half_image_data, sequence)
     elif (identity == 2):
-        process_end_part(random_id, half_image_data)
+        process_end_part(random_id, half_image_data, sequence)
 
 
 
