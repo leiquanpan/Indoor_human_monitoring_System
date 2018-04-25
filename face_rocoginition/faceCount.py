@@ -60,131 +60,87 @@ for face_location in face_locations:
     mid_point_x=left+(right-left)/2
     mid_point_y=top+(bottom-top)/2
 
-    if mid_point_x>=442 and mid_point_x<=617 and mid_point_y>=541 and mid_point_y<=671:
+   
+    if mid_point_x>=294 and mid_point_x<=496 and mid_point_y>=459 and mid_point_y<=588:
         Matrix[0][0]=1
         ref.update({
             'A0':True
         })
-    else: 
-        Matrix[0][0]=0
-        ref.update({
-            'A0':False
-        })
-    if mid_point_x>=508 and mid_point_x<=693 and mid_point_y>=455 and mid_point_y<=538:
+    if mid_point_x>=437 and mid_point_x<=566 and mid_point_y>=369 and mid_point_y<=450:    
         Matrix[1][0]=1
         ref.update({
             'B0':True
         })
-    else: 
-        Matrix[1][0]=0
-        ref.update({
-            'B0':False
-        })
-    if mid_point_x>=584 and mid_point_x<=735 and mid_point_y>=428 and mid_point_y<=507:
+    if mid_point_x>=579 and mid_point_x<=685 and mid_point_y>=354 and mid_point_y<=437:    
         Matrix[2][0]=1
         ref.update({
             'C0':True
         })
-    else: 
-        Matrix[2][0]=0
-        ref.update({
-            'C0':False
-        })
-    if mid_point_x>=658 and mid_point_x<=816 and mid_point_y>=383 and mid_point_y<=464:
+    if mid_point_x>=657 and mid_point_x<=785 and mid_point_y>=331 and mid_point_y<=425:    
         Matrix[3][0]=1
         ref.update({
             'D0':True
         })
-    else: 
-        Matrix[3][0]=0
-        ref.update({
-            'D0':False
-        })
-    if mid_point_x>=998 and mid_point_x<=1212 and mid_point_y>=527 and mid_point_y<=669:
+    if mid_point_x>=879 and mid_point_x<=1071 and mid_point_y>=484 and mid_point_y<=594:    
         Matrix[0][1]=1
         ref.update({
             'A1':True
         })
-    else: 
-        Matrix[0][1]=0
-        ref.update({
-            'A1':False
-        })
-    if mid_point_x>=992 and mid_point_x<=1184 and mid_point_y>=410 and mid_point_y<=521:
+    if mid_point_x>=882 and mid_point_x<=1002 and mid_point_y>=386 and mid_point_y<=468:    
         Matrix[1][1]=1
         ref.update({
             'B1':True
         })
-    else: 
-        Matrix[1][1]=0
-        ref.update({
-            'B1':False
-        })
-    if mid_point_x>=1000 and mid_point_x<=1159 and mid_point_y>=455 and mid_point_y<=541:
+    if mid_point_x>=986 and mid_point_x<=1101 and mid_point_y>=367 and mid_point_y<=474:    
         Matrix[2][1]=1
         ref.update({
             'C1':True
         })
-    else:
-        Matrix[2][1]=0
-        ref.update({
-            'C1':False
-        })
-    if mid_point_x>=1013 and mid_point_x<=1149 and mid_point_y>=377 and mid_point_y<=450:
+    if mid_point_x>=1007 and mid_point_x<=1113 and mid_point_y>=336 and mid_point_y<=428:    
         Matrix[3][1]=1
         ref.update({
             'D1':True
         })
-    else:
-        Matrix[3][1]=0
-        ref.update({
-            'D1':False
-        })
-    if mid_point_x>=1556 and mid_point_x<=1704 and mid_point_y>=522 and mid_point_y<=623:
+    if mid_point_x>=1484 and mid_point_x<=1672 and mid_point_y>=514 and mid_point_y<=627:    
         Matrix[0][2]=1
         ref.update({
             'A2':True
         })
-    else:
-        Matrix[0][2]=0
-        ref.update({
-            'A2':False
-        })
-    if mid_point_x>=1432 and mid_point_x<=1584 and mid_point_y>=430 and mid_point_y<=522:
+    if mid_point_x>=1393 and mid_point_x<=1584 and mid_point_y>=471 and mid_point_y<=579:    
         Matrix[1][2]=1
         ref.update({
             'B2':True
         })
-    else:
-        Matrix[1][2]=0
-        ref.update({
-            'B2':False
-        })
-    if mid_point_x>=1385 and mid_point_x<=1519 and mid_point_y>=422 and mid_point_y<=493:
+    if mid_point_x>=1370 and mid_point_x<=1477 and mid_point_y>=357 and mid_point_y<=455:    
         Matrix[2][2]=1
         ref.update({
             'C2':True
         })
-    else:
-        Matrix[2][2]=0
-        ref.update({
-            'C2':False
-        })
-    if mid_point_x>=1318 and mid_point_x<=1459 and mid_point_y>=381 and mid_point_y<=449:
+    if mid_point_x>=1254 and mid_point_x<=1381 and mid_point_y>=351 and mid_point_y<=442:    
         Matrix[3][2]=1
         ref.update({
             'D2':True
         })
-    else:
-        Matrix[3][2]=0
-        ref.update({
-            'D2':False
-        })
 
 # get current distribution and write to a json file for web use
 with open('matrix.json', 'w') as f:
-    f.write(json.dumps(str(ref.get())))
+    f.write(json.dumps(ref.get()))
 
+# reinitiate the firebase
+ref.update({
+     'A0':False,
+     'A1':False,
+     'A2':False,
+     'B0':False,
+     'B1':False,
+     'B2':False,
+     'C0':False,
+     'C1':False,
+     'C2':False,
+     'D0':False,
+     'D1':False,
+     'D2':False,
+})
 #cv2.putText(frame, text, (), font, 1, (255, 255, 255), 1)
 #store the photo in the endPath
 time = str(datetime.now())
