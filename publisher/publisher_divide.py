@@ -127,6 +127,7 @@ while loopCount < 1:
         original_graph = bytearray(encimg)
         length = len(original_graph)
         start = 0
+        sequence = 0
         
         #add random number
         random_number = random.randint(1,1024)
@@ -134,7 +135,7 @@ while loopCount < 1:
         if length >= 100*1024:
             first_part = original_graph[start:start + 100*1024]
             #add identification
-            first_part = start.to_bytes(1, byteorder='big') + first_part
+            first_part = start.to_bytes(1, byteorder='big') + sequence.to_bytes(1, byteorder='big') + first_part
             first_part = first_part + random_number.to_bytes(2, byteorder='big')
             myAWSIoTMQTTClient.publish(topic, bytearray(first_part), 1)
             print("Published first half of message " + str(loopCount))
@@ -146,18 +147,20 @@ while loopCount < 1:
         
         length = length - 100*1024
         start = 100*1024
+        sequence = sequence + 1
         
         while length >= 100*1024:
             following_part = original_graph[start:start + 100*1024]
-            following_part = middle.to_bytes(1, byteorder='big') + following_part
+            following_part = middle.to_bytes(1, byteorder='big') + sequence.to_bytes(1, byteorder='big') + following_part
             following_part = following_part + random_number.to_bytes(2, byteorder='big')
             myAWSIoTMQTTClient.publish(topic, bytearray(following_part), 1)
             print("Published following half of message " + str(loopCount))
             length = length - 100*1024
             start = start + 100*1024
+            sequence = sequence + 1
                 
         end_part = original_graph[start:]
-        end_part = end.to_bytes(1, byteorder='big') + end_part
+        end_part = end.to_bytes(1, byteorder='big') + sequence.to_bytes(1, byteorder='big') + end_part
         end_part = end_part + random_number.to_bytes(2, byteorder='big')
         myAWSIoTMQTTClient.publish(topic, bytearray(end_part), 1)
         print("Published end half of message " + str(loopCount))
