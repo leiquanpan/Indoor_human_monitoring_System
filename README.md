@@ -54,4 +54,7 @@ In Serveer side:
         python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -k ../IoT_CERT/private.pem.key -c ../IoT_CERT/certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
 
 
-    
+<img src="demo.jpg" width=500 height=300>
+<img src="matrix.jpg" width=700 height=300>
+<img src="distribution.jpg" width=200 height=300>
+<img src="scaled.jpeg" width=500 height=300>
