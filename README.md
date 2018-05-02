@@ -57,5 +57,14 @@ In Serveer side:
         python3 subscriber.py -e apj4uko2zpf4y.iot.us-west-2.amazonaws.com -r ../IoT_CERT/root-CA -k ../IoT_CERT/private.pem.key -c ../IoT_CERT/certificate.pem.crt -t aws/things/Image_broker_01/shadow/update
 
 
+### Web Presentation ###
+
+* First, install pip for your AWS EC2 instance: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install-linux.html
+* Second, add Firebase Admin SDK to your AWS EC2 instance: https://firebase.google.com/docs/admin/setup
+* Third, install Django on your AWS EC2 instance: https://docs.djangoproject.com/en/2.0/intro/install/
+* Fourth, use sftp protocol to upload demosite to your user folder on your server
+* Fifth, navigate to demosite folder on your server and run command: python3 manage.py runserver 0:8000
+* Sixth, open a browser and visit: http://<IP address>:8000/sitsdemo/
+
 
 
