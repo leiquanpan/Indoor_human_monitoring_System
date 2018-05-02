@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'sitsdemo/style.css' %}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sites Demo</title>
+</head>
+
+<body>
+    <div id="demo_div">
+        <table id="demo_table">
+            {% for line in sits_matrix %}
+            <tr>
+                {% for sit in line %}
+                    {% if sit == 1 %}
+                    <td><img  src="{{MEDIA_URL}}taken.jpeg"></td>
+                    {% elif sit == 0 %}
+                    <td><img src="{{MEDIA_URL}}vacant.jpeg"></td>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </tr>
+        </table>
+        <button id="update_btn">Update</button>
+    </div>
+
+</body>
+<script>
+    const refresh = function(){
+        window.location.reload(true);
+    }
+    document.getElementById("update_btn").addEventListener("click", refresh, false);
+</script>
+</html>
